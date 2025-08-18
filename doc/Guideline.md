@@ -68,3 +68,6 @@ OrthoMAP is a Rscript to create a Seurat Object with an orthologous gene cluster
 - **c** : continue, run step 2 (standard Seurat standard workflow)
 - **p** : peek, run visualization of pre-processed OrthoMAP object
 - **v** : visualize, run visualization of processed OrthoMAP result
+
+⚠️ **Trouble-shooting: Out of Memory**
+In the kNN algorithm, the number of used reduction space are chosen based on the standard deviation. In case, no single component is selected, the memory usage explodes. The issue was not fixed.

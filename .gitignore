@@ -66,8 +66,8 @@ Thumbs.db
 # Custom results directory #
 ############################
 results/
-test/
 download/
+SAMap/
 
 # Logs #
 ########

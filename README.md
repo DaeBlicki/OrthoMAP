@@ -1,6 +1,6 @@
-# OrthoMAP - Interspecific cell-type tree construction methods
+# OrthoMAP 
 
-This project aims to implement a pipeline for construction and assessment of interspecific cell-type trees. This pipeline is contributed in three parts: Identify comparable genes between species, produce cell-type distance matrices for each species, and compare the hierarchical trees.
+This project aims to implement a pipeline for create an embedding for cross-species comparisons. It depends on orthologous genes identified by any orthology interference software and data from scRNA-seq.
 
 ## Abstract
 
@@ -12,13 +12,12 @@ Run the following commands in your console. The command will download the projec
 
 ```
 # clone the git repository
-git clone "......."
-cd ".........."
+git clone https://github.com/DaeBlicki/OrthoMAP.git
+cd OrthoMAP
 
 # create `data/` structure
-cd data
-mkdir DB sc_objects annotation_table
-cd ..
+mkdir data
+mkdir data/DB data/single_cell_atlas data/annotation_table
 ```
 
 The project structure after running the pipeline looks like this.
@@ -39,21 +38,22 @@ OrthoMAP
 │    ├── OrthoFinder/diamond            * results for Diamond
 │    ├── OrthoFinder/mmseqs2            * results for MMseqs2
 │    ├── OrthoMAP_Data_Visualization/   * visual results
-│    └── OrthoMAP_Seurat_Objects/       * seurat results
+│    ├── OrthoMAP_Seurat_Objects/       * seurat results
+│    └── OrthoMAP_Statistical_Results/  * empirical results
 │ 
 └── scripts
-     ├── oma_part1.sh              * Part 1 using OMA
-     ├── oma_part2.sh              * Part 1 using OMA
-     ├── oma_part3.sh              * Part 1 using OMA
-     ├── orthofinder_diamond.sh    * Part 1 using OrthoFinder
-     ├── orthofinder_mmseqs2.sh    * Part 1 using OrthoFinder
-     └── orthomap.sh               * Part 2 using OrthoMAP
+     ├── oma_part1.sh              * Part 1 of OMA
+     ├── oma_part2.sh              * Part 2 of OMA
+     ├── oma_part3.sh              * Part 3 of OMA
+     ├── orthofinder_diamond.sh    * run OrthoFinder using Diamond
+     ├── orthofinder_mmseqs2.sh    * run OrthoFinder using MMseqs2
+     └── run_orthomap.sh           * run OrthoMAP
 ```
 
 
 ### 1.2. Requirement
 
-The pipeline requires **three** inputs for each species: Transcriptomes stored as `.fa` in `data/DB`, scRNA-seq data stored as `.Robj` or `.rds` in `data/sc_objects`, and the annotation table from FASTA file (geneID) to Robj file (gene.name) stored as `.csv` in `data/annotation_table`. The required software and R packages are shown in Supplementary Material - Software.
+The pipeline requires **three** inputs for each species: Transcriptomes stored as `.fa` in `data/DB`, scRNA-seq data stored as `.Robj` or `.rds` in `data/sc_objects`, and the annotation table from FASTA file (geneID) to Robj file (gene.name) stored as `.csv` in `data/annotation_table`. The required software and R packages are shown in Supplementary Material - Software. (Optional) Color palette for coloring celltypes stored in `IDs` can be integrated in the pipeline using `data/tissue_palette.csv`
 
 **⚠️ IMPORTANT: Each species inputs must have the same filename**
 
@@ -90,7 +90,7 @@ sbatch --dependency=afterok:$jid2 scripts/oma_part3.sh
 sbatch < scripts/orthofinder_update.sh
 ```
 
-### STEP 2: Produce cell-type distance matrices for each species
+### STEP 2: Produce orthologous gene embeddings
 This was developed in [*R* (v.4.5.0)](https://www.R-project.org/)[6]. The workflow create a [Seurat](https://doi.org/10.1016/j.cell.2021.04.048) [7] Object with an orthologous gene cluster (orthogroups) against cells expression. See Supplementary Material for the used R packages. In the project repository, run following command: ```Rscript src/main.R (opt)[f]```
 
 **[f] Pipeline flag**
@@ -109,6 +109,7 @@ This was developed in [*R* (v.4.5.0)](https://www.R-project.org/)[6]. The workfl
 - In `data/annotation_table` : Maps for gene.id (`.fa`) to gene.name (`.Robj`)
 - In `data/config.yaml`: Contains configuration for the resulting path in the pipeline and which input the user wants to use
 - In `data/parameters.drw`: Parameter file for the OMA standard workflow, change $SpeciesTree when available
+- In `data/parameters.drw`: (Optional) color palette for coloring the UMAP and Donut Charts and so on.
 
 ### scsRNA_metadata.csv
 This file contains **mandatory** and **important** information used in the pipeline. Here is a description for the colnames with an example.
@@ -175,38 +176,9 @@ Relevant for the OMA analysis. Add species tree when available
 
 | File ID | Scientific Name                | Phylum         | Class           | Notes              |
 | ------- | ------------------------------ | -------------- | --------------- | ------------------ |
-| sm      | *Schmidtea mediterranea*       | Platyhelmintes | Trepaxonemata   |                    |
-| ce      | *Caenorhabditis elegans*       | Nematoda       | Chromadorea     |                    |
-| aq      | *Amphimedon queenslandica*     | Porifera       | Demospongiae    |                    |
-| em      | *Ephydatia muelleri*           | Porifera       | Demospongiae    | (GCA\_049114765.1) |
-| sd      | *Suberites domuncula*          | Porifera       | Demospongiae    | (local)            |
-| sl      | *Spongilla lacustris*          | Porifera       | Demospongiae    |                    |
-| ed      | *Euplokamis dunlapae*          | Ctenophora     | Tentaculata     | (local)            |
-| xs      | *Xenia sp.*                    | Cnidaria       | Octocoralia     |                    |
-| ad      | *Acropora digitifera*          | Cnidaria       | Hexacorallia    |                    |
-| am      | *Acropora millepora*           | Cnidaria       | Hexacorallia    |                    |
-| ep      | *Exaiptasia pallida*           | Cnidaria       | Hexacorallia    |                    |
-| tripc   | *Tripedalia cystophora*        | Cnidaria       | Cubozoa         |                    |
-| ch      | *Clytia hemisphaerica*         | Cnidaria       | Hydrozoa        |                    |
-| hm      | *Hydra magnipapillata*         | Cnidaria       | Hydrozoa        |                    |
-| hv      | *Hydra vulgaris*               | Cnidaria       | Hydrozoa        | (HVAEP)            |
-| nv2     | *Nematostella vectensis*       | Cnidaria       | Anthozoa        | (NV2, local)       |
-| sc      | *Scolanthus callimorphus*      | Cnidaria       | Anthozoa        | (local)            |
-| ac      | *Aurelia coerulea*             | Cnidaria       | Scyphozoa       | (local 51K)        |
-| kostya  | *Aurelia coerulea*             | Cnidaria       | Scyphozoa       |                    |
-| re      | *Rhopilema esculentum*         | Cnidaria       | Scyphozoa       | (bob version)      |
-| re2     | *Rhopilema esculentum*         | Cnidaria       | Scyphozoa       | (GCF\_013076305.1) |
-| sa      | *Sanderia malayensis*          | Cnidaria       | Scyphozoa       | (GCA\_013076295.1) |
-| ta      | *Trichoplax adherens*          | Placozoa       | Uniplacotomia   |                    |
-| py      | *Patinopectin yessoensis*      | Mollusca       | Bivalva         |                    |
-| sb      | *Streblospio benedicti*        | Annelida       | Pleistoannelida |                    |
-| cr      | *Carcinoscorpius rotundicauda* | Arthropoda     | Merostomata     |                    |
-| dm      | *Drosophila melanogaster*      | Arthropoda     | Insecta         |                    |
-| tc      | *Trigoniulus corallinus*       | Arthropoda     | Diplopoda       |                    |
-| bf      | *Branchiostoma floridae*       | Chordata       | Leptocardii     |                    |
-| lo      | *Lepisosteus oculatus*         | Chordata       | Actinopterygii  | (GCF\_040954835.1) |
-| hs      | *Homo sapiens*                 | Chordata       | Mammalia        |                    |
-| mm      | *Mus musculus*                 | Chordata       | Mammalia        |                    |
+ |Hv      | *Hydra vulgaris*               | Cnidaria       | Hydrozoa        | (HVAEP)            |
+| Nv      | *Nematostella vectensis*       | Cnidaria       | Anthozoa        | (NV2, local)       |
+| Ac      | *Aurelia coerulea*             | Cnidaria       | Scyphozoa       | (local 51K)        |
 
 ## 🖥️ Hardware 
 

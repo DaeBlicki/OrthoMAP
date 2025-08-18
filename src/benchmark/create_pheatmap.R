@@ -1,10 +1,9 @@
 #'-----------------------------------------------------------------------------
-#' @title   Run Donut Chart Visualization for OrthoMAP and SAMap
+#' @title   Run Pheatmap for OrthoMAP and SAMap
 #'
 #' @concept
-#' This script visualize the results from OrthoMAP and SAMap for Species, IDs
-#' and orig.ident as UMAP. It shows the 80% coverage of the cluster. For SAMap,
-#' it chooses randomely from the 20 iterations (use seed for reproducibility)
+#' This script visualize the Pheatmap (Cluster vs. IDs) from OrthoMAP and
+#' SAMap.
 #'
 #' @author  David Blickenstorfer, Technau Group (2025)
 #' @created 16/08/2025
@@ -62,74 +61,61 @@ create_shannon_plot <- function(file, plotname) {
   ct_raw_table <- as.data.frame.matrix(table(obj$orthomap_clusters,
                                              obj$IDs))
   ct_raw_table <- ct_raw_table[order(as.integer(rownames(ct_raw_table))), ]
-  # -------------------------------------------------------------------------
-  #' @title create_cluster_plots
-  #' @brief evaluate the tissue percentage of the clusters
-  #' @param ct_raw_table_line line in ct_raw_table
-  #' @return Character Vector, line in the empirical results table
-  # -------------------------------------------------------------------------
-  estimate_cluster_plots <- function(ct_raw_table_line) {
-    # -------------------------------------------------------------------------
-    ## 1 Create Pie Chart and evaluate number of celltypes
-    # -------------------------------------------------------------------------
-    n_table <- as.integer(ct_raw_table_line)
-    cluster_id <- rownames(ct_raw_table)[which(apply(ct_raw_table,
-                                                     1, identical,
-                                                     ct_raw_table_line))]
-    total_cells <- sum(n_table)
-    pct_table <- n_table / total_cells
-    ct_table <- colnames(ct_raw_table)
-    # get order and calculate the minimal number of cells to achieve coverage
-    order <- order(as.integer(n_table), decreasing = TRUE)
-    ordered_n_table <- n_table[order]
-    ordered_pct_table <- pct_table[order]
-    ordered_ct_table <- ct_table[order]
-    # create vector of most important celltype that covers "coverage"
-    cumsum_coverage <- cumsum(ordered_pct_table)
-    num_celltype <- which(cumsum_coverage >= coverage)[1]
-    n_vector <- ordered_n_table[1:num_celltype]
-    pct_vector <- ordered_pct_table[1:num_celltype]
-    tissue_vector <- ordered_ct_table[1:num_celltype]
-    # add the rest as cumultative labelled as "Others"
-    n_vector <- c(n_vector, total_cells - sum(n_vector))
-    pct_vector <- c(pct_vector, 1.0 - sum(pct_vector))
-    pct_vector <- 100 * round(pct_vector, digits = 2)
-    tissue_vector <- c(tissue_vector, "Others")
-    # generate doughnut chart with ggplot2
-    df <- data.frame(
-      Tissue = tissue_vector,
-      n = n_vector,
-      pct = pct_vector,
-      label = paste0("\n ", n_vector,
-                     "\n ", pct_vector, "%")
-    )
-    df$ymax <- cumsum(df$pct)
-    df$ymin <- c(0, head(df$ymax, n = -1))
-    df$labelPosition <- (df$ymax + df$ymin) / 2
-    df$Tissue <- factor(df$Tissue, levels = df$Tissue)
 
-    pie_plot <- ggplot2::ggplot(df, aes(ymax=ymax, ymin=ymin,
-                                      xmax=4, xmin=2.5,
-                                      fill=Tissue)) +
-      ggplot2::theme_void() +
-      ggplot2::scale_fill_manual(values = tissue_colors) +
-      guides(fill = guide_legend(override.aes = list(shape = 16, size = 4))) +
-      ggplot2::theme(plot.background = element_rect(fill = "white",
-                                                    color = NA),
-                     legend.justification = "left",
-                     legend.title = ggplot2::element_blank(),
-                     legend.key = ) +
-      ggplot2::annotate(geom = "text", x = -1, y = 0, label = cluster_id,
-                        size = 10, fontface = "bold", color = "black") +
-      ggplot2::geom_rect() +
-      ggplot2::geom_text(x = 3.25, aes(y=labelPosition, label=label), size=2) +
-      ggplot2::coord_polar(theta="y", start = 0) +
-      ggplot2::xlim(c(-1, 4))
-    # return pie_plot
-    ggplot2::ggsave("test/donut/single.png", pie_plot,
-                  width = 12, height = 14)
-    pie_plot
-  }
+    # Tissue vs Cluster: scaled-tissue
+  plotname <- paste0("Pheatmap_Tissue_Scaling", result_format)
+  filename <- file.path(output_directory, plotname)
+  gt <- pheatmap::pheatmap(ct_raw_table,
+                           cluster_rows = TRUE, cluster_cols = TRUE,
+                           scale = "column",
+                           display_numbers = TRUE,
+                           fontsize_number = 4,
+                           fontsize_row = 4,
+                           main = "Tissue vs. Cluster: column-scaled",
+                           filename = filename)$gtable
+  ggplot2::ggsave(filename, plot = gt)
+  # Tissue vs Cluster: scaled-cluster
+  plotname <- paste0("Pheatmap_Cluster_Scaling", result_format)
+  filename <- file.path(output_directory, plotname)
+  gt <- pheatmap::pheatmap(ct_raw_table,
+                           cluster_rows = TRUE, cluster_cols = TRUE,
+                           display_numbers = TRUE,
+                           scale = "row",
+                           fontsize_number = 4,
+                           fontsize_row = 4,
+                           main = "Tissue vs. Cluster: row-scaled",
+                           filename = filename)$gtable
+  ggplot2::ggsave(filename, plot = gt)
+  # Tissue vs Cluster: percentage tissue in cluster
+  plotname <- paste0("Pheatmap_pct_clus_in_tissue", result_format)
+  filename <- file.path(output_directory, plotname)
+  gt <- pheatmap::pheatmap(ct_pct_table,
+                           cluster_rows = TRUE, cluster_cols = TRUE,
+                           display_numbers = TRUE,
+                           fontsize_number = 4,
+                           main = "Cluster [%] in Tissue",
+                           filename = filename)$gtable
+  ggplot2::ggsave(filename, plot = gt)
+  # Tissue vs Cluster: percentage tissue in cluster
+  plotname <- paste0("Pheatmap_pct_tissue_in_clust", result_format)
+  filename <- file.path(output_directory, plotname)
+  gt <- pheatmap::pheatmap(clust_ct_pct_table,
+                           cluster_rows = TRUE, cluster_cols = TRUE,
+                           display_numbers = TRUE,
+                           fontsize_number = 4,
+                           main = "Tissue [%] in Cluster",
+                           filename = filename)$gtable
+  ggplot2::ggsave(filename, plot = gt)
+  # plot species per cluster pheatmap
+  plotname <- paste0("Pheatmap_species_in_clust", result_format)
+  filename <- file.path(output_directory, plotname)
+  gt <- pheatmap::pheatmap(clust_sp_pct_table,
+                           cluster_rows = TRUE, cluster_cols = TRUE,
+                           display_numbers = TRUE,
+                           main = "Species Distribution in Cluster",
+                           filename = filename)$gtable
+  ggplot2::ggsave(filename, plot = gt)
+  
   pie_plots <- apply(ct_raw_table, 1, estimate_cluster_plots)
   # return the shannon_plots
   patchwork::wrap_plots(pie_plots, ncol = 3)

@@ -1,4 +1,16 @@
-# ---------------------------------------------------------
+# -----------------------------------------------------------------------
+# Orthology Interference Documentation
+# -----------------------------------------------------------------------
+Job-Id  CPU     Memory[GB]  Core    Time[min]   Note
+6270584 54.46%  22.06 GB    64      45          OrthoFinder (Diamond)
+6270559 28.48%  24.87 GB    64      84          OrthoFinder (MMseqs2)
+6270597 97.83%   0.81 GB    1       1           OMA part 1
+6270598 65.07%  45.15 GB    64      1106        OMA part 2
+6270599 82.35%   1.00 GB    1       2           OMA part 3
+
+# -----------------------------------------------------------------------
+# OrthoMAP Logs
+# -----------------------------------------------------------------------
 # 1: Run x with no filtering using standard approach
 Job-Id  Memory[GB]  Time[min]   Note
 6690535 32.05 GB    36          x, oma
@@ -6,28 +18,22 @@ Job-Id  Memory[GB]  Time[min]   Note
 6690541 33.37 GB    36          x, mmseqs2 oog
 6690545 33.95 GB    37          x, diamond hog
 6690551 32.69 GB    32          x, diamond oog
-
 # ---------------------------------------------------------
 # 2: Run c with filtering using standard approach
-Job-Id  Memory[GB]  Time[min]   Note
 6690640 28.03 GB    25          c, oma
 6690641 27.45 GB    28          c, mmseqs2 hog
 6690642 22.54 GB    24          c, mmseqs2 oog
 6690643 27.88 GB    28          c, diamond hog
 6690645 22.56 GB    21          c, diamond oog
-
 # ---------------------------------------------------------
 # 3: cosine + pca, 0.1, 0.1
-Job-Id  Memory[GB]  Time[min]   Note
 6695247 24.56 GB    21          c, oma
 6695253 30.20 GB    22          c, mmseqs2 hog
 6695260 21.06 GB    20          c, mmseqs2 oog
 6695265 30.27 GB    23          c, diamond, hog
 6695272 20.78 GB    18          c, diamond oog
-
 # ---------------------------------------------------------
-# 3: cosine + pca, 0.1, 0.1
-Job-Id  Memory[GB]  Time[min]   Note
+# 4: cosine + harmony, 0.1, 0.1
 6695430 24.56 GB    24          c, oma
 6695434 30.20 GB    26          c, mmseqs2 hog
 6695441 21.07 GB    23          c, mmseqs2 oog
