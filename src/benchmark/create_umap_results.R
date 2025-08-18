@@ -76,7 +76,7 @@ create_umap <- function(filename, plotname) {
                    plot.margin = ggplot2::margin(1, 2, 1, 2))
   method_plot <- celltype_plot + species_plot + batch_plot +
     patchwork::plot_layout(ncol = 3, width = c(1, 1, 1)) +
-    patchwork::plot_annotation(title = plotname)
+    patchwork::plot_annotation(title = plotname,  tag_levels = NULL)
   rm(batch_plot, celltype_plot, species_plot, obj)
   gc()
   method_plot
@@ -97,7 +97,7 @@ celltype_plot_list_mod <- mapply(function(plot, name) {
     ggplot2::guides(color = guide_legend(nrow = 4, bycol = TRUE))
 }, celltype_plot_list, plotnames_ordered, SIMPLIFY = FALSE)
 celltype_umap <- wrap_plots(celltype_plot_list_mod, nrow = 2, ncol = 3) +
-  plot_layout(guides = "collect") &
+  plot_layout(guides = "collect", tag_level = NULL) &
   theme(legend.position = "bottom", panel.border = ggplot2::element_blank())
 
 # -----------------------------------------------------------------------------
@@ -112,7 +112,7 @@ species_plot_list_mod <- mapply(function(plot, name) {
     ggplot2::guides(color = guide_legend(nrow = 1, bycol = TRUE))
 }, species_plot_list, plotnames_ordered, SIMPLIFY = FALSE)
 species_umap <- wrap_plots(species_plot_list_mod, nrow = 2, ncol = 3) +
-  plot_layout(guides = "collect") &
+  plot_layout(guides = "collect", tag_level = NULL) &
   theme(legend.position = "bottom", panel.border = ggplot2::element_blank())
 
 # -----------------------------------------------------------------------------
@@ -134,21 +134,18 @@ batch_plot_list_mod <- mapply(function(plot, name) {
     ggplot2::guides(color = guide_legend(nrow = 3, bycol = TRUE))
 }, batch_plot_list, plotnames_ordered, SIMPLIFY = FALSE)
 batch_umap <- wrap_plots(batch_plot_list_mod, nrow = 2, ncol = 3) +
-  plot_layout(guides = "collect") &
+  plot_layout(guides = "collect", tag_level = NULL) &
   theme(legend.position = "bottom", panel.border = ggplot2::element_blank())
 
 # -----------------------------------------------------------------------------
 # Merge and save result
-species_umap <- patchwork::wrap_plots(species_umap) +
-  patchwork::plot_annotation(tag_levels = NULL)
-celltype_umap <- patchwork::wrap_plots(celltype_umap) +
-  patchwork::plot_annotation(tag_levels = NULL)
-batch_umap   <- patchwork::wrap_plots(batch_umap) +
-  patchwork::plot_annotation(tag_levels = NULL)
-
-umap_result <- (species_umap) / (celltype_umap) / (batch_umap) +
+umap_result <- patchwork::wrap_elements(species_umap) /
+  patchwork::wrap_elements(celltype_umap) /
+  patchwork::wrap_elements(batch_umap) +
   patchwork::plot_layout(heights = c(1, 1.1, 1)) +
-  patchwork::plot_annotation(tag_levels = "A")
+  patchwork::plot_annotation(tag_levels = "A") &
+  ggplot2::theme(plot.tag = element_text(size = 20, face = "bold"))
 
-filename <- file.path("results", "benchmark", "UMAP.png")
+# Save
+filename <- file.path("results", "benchmark", "UMAP.pdf")
 ggplot2::ggsave(filename, umap_result, width = 12, height = 14)
