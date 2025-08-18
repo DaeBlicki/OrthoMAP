@@ -1,0 +1,76 @@
+# Compiled source #
+###################
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.acn
+*.acr
+*.alg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.ist
+*.maf
+*.mtc
+*.mtc0
+*.nav
+*.nlo
+*.snm
+*.synctex.gz
+*.thm
+*.vrb
+*.xdy
+*.xdv
+
+# Intermediate LaTeX files
+*.run.xml
+*.bcf
+
+# PDF and PostScript
+*.pdf
+*.ps
+*.eps
+
+# Editors and system files #
+############################
+*~
+*.swp
+.DS_Store
+Thumbs.db
+
+# R related #
+#############
+*.Rhistory
+*.RData
+*.Rproj.user/
+*.Rproj
+*.Rout
+*.Robj
+
+# Sequence and bioinformatics files #
+####################################
+*.fa
+
+# Custom results directory #
+############################
+results/
+test/
+download/
+
+# Logs #
+########
+*.log
+*.err
+*.synctex*

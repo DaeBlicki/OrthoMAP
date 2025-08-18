@@ -1,0 +1,4 @@
+file_id, scientific_name, orig.ident, ID.separate, IDs, sc_version, Note
+Ac, Aurelia_coerulea, orig.ident, ID.separate, IDs, 4.1.4, local
+Nv, Nematostella_vectensis, orig.ident, ID.separate, IDs, 4.1.2, local
+Hv, Hydra_vulgaris, orig.ident, curatedIdent, IDs, 5.0.1, no_dublicates

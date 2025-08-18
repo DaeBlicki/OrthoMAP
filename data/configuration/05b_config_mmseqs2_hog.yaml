@@ -1,0 +1,176 @@
+# ------------------------------------------------------------------------------
+# configuration.yaml
+# Description: Configuration file for OrthoFinder, using MMseqs2 on HOG
+#
+# Author  : David Blickenstorfer, Technau Group (2025)
+# ------------------------------------------------------------------------------
+
+# General configurations
+general:
+  verbose: TRUE
+  ## possible workflow: "standard", "top_down", "bottom_up"
+  workflow: "top_down"
+  version: OrthoFinder (v.3.0.1b1) using MMseqs2 (v.17-b804f)
+
+# Input directory
+input:
+  ortholog_analysis_input: results/OrthoFinder/mmseqs2/Phylogenetic_Hierarchical_Orthogroups/OrthologsTable_HOG.tsv
+
+# Output directory and filenames
+output:
+  orthomap_tmp: alldata.Robj
+  # orthomap_result: FALSE means not saving
+  orthomap_result: result.Robj
+  orthomap_seurat_object_path: results/OrthoMAP_Seurat_Objects/mmseqs2/HOG
+  orthomap_visualization_path: results/OrthoMAP_Data_Visualization/mmseqs2/HOG/9
+  orthomap_statistical_path: results/OrthoMAP_Statistical_Results/mmseqs2/HOG/9
+
+# ------------------------------------------------------------------------------
+## Configuration for the Seurat Preprocessing
+# (1) All coefficients must be zero or bigger
+# (2) Max must be zero or bigger than Min
+# (3) Iteration must be 1 or bigger (remove zeros)
+# ------------------------------------------------------------------------------
+seurat_preprocessing:
+  # quantitative properties
+  min_cells_in_orthogroup: 50
+  max_cells_in_orthogroup: 100000
+  min_orthogroups_in_cell: 150
+  max_orthogroups_in_cell: 5000
+  # qualitative 
+  min_count_in_orthogroup: 100
+  max_count_in_orthogroup: 1000000
+  min_count_in_cell: 200
+  max_count_in_cell: 30000
+  # iteration until convergence
+  max_iteration: 10
+
+# ------------------------------------------------------------------------------
+# Configuration for the Seurat Standard Workflow
+# ------------------------------------------------------------------------------
+seurat_standard:
+  ## Normalization configuration
+  # possible normalization.method (https://satijalab.org/seurat/reference/normalizedata)
+  # "LogNormalize", "CLR", "RC"
+  normalization.method: "LogNormalize"
+  normalization.scale.factor: 10000
+  ## Feature selection configuration
+  # possible selection.method (https://satijalab.org/seurat/reference/findvariablefeatures)
+  # "vst", "mean.var.plot", "dispersion"
+  selection.method: "vst"
+  selection.nfeatures: 2000
+  scale.features: "orig.ident"
+  ## Dimension reduction configuration
+  pca.dimensions: 100
+  harmony.dimensions: 50
+  reduction.group.by: "species"
+  reduction.stdev: 2.0
+  # possible reduction.space
+  # "pca": use principal components
+  # "harmony": use harmony components
+  reduction.space: "harmony"
+  ## k-nearest neighbors configuration
+  # possible neighbors.annoy.metric (https://satijalab.org/seurat/reference/findneighbors)
+  # "cosine", "euclidian", "manhattan", "hamming"
+  neighbors.annoy.metric: "cosine"
+  neighbors.k: 20  
+  # possible cluster.metadata (use "IDs" is highly recommended)
+  cluster.seed: 42
+  # possible cluster.algorithm (https://satijalab.org/seurat/reference/findclusters)
+  # 1: original Louvain algorithm
+  # 2: Louvain algorithm with multilevel refinement
+  # 3: SLM algorithm
+  # 4: Leiden algorithm
+  cluster.algorithm: 4
+  ## UMAP configuration
+  umap.spread: 1
+  umap.min.dist: 0.2
+  umap.local.connectivity: 10
+  ## TSNE configuration
+  tsne.perplexity: 100
+
+# ------------------------------------------------------------------------------
+# Configuration for the OrthoMAP Top-Down Workflow
+# ------------------------------------------------------------------------------
+orthomap_top_down:
+  ## Configuration for the coarse clustering
+  coarse:
+    ## Normalization configuration
+    normalization.method: "LogNormalize"
+    normalization.scale.factor: 10000
+    ## Feature selection configuration
+    selection.method: "vst"
+    selection.nfeatures: 2000
+    scale.features: "orig.ident"
+    ## Dimension reduction configuration
+    pca.dimensions: 100
+    harmony.dimensions: 50
+    reduction.group.by: "species"
+    reduction.stdev: 2.0
+    # possible reduction.space
+    reduction.space: "harmony"
+    ## k-nearest neighbors configuration
+    # possible neighbors.annoy.metric (https://satijalab.org/seurat/reference/findneighbors)
+    # "cosine", "euclidian", "manhattan", "hamming"
+    neighbors.annoy.metric: "cosine"
+    neighbors.k: 20  
+    ## clustering configuration
+    cluster.resolution: 0.1
+    cluster.seed: 42
+    # possible cluster.algorithm (https://satijalab.org/seurat/reference/findclusters)
+    # 1: original Louvain algorithm
+    # 2: Louvain algorithm with multilevel refinement
+    # 3: SLM algorithm
+    # 4: Leiden algorithm
+    cluster.algorithm: 4
+    ## UMAP
+    umap.spread: 1
+    umap.min.dist: 0.2
+    umap.local.connectivity: 10
+  fine:
+    ## Normalization configuration
+    normalization.method: "LogNormalize"
+    normalization.scale.factor: 10000
+    ## Feature selection configuration
+    selection.method: "vst"
+    selection.nfeatures: 2000
+    scale.features: "orig.ident"
+    ## Dimension reduction configuration
+    pca.dimensions: 100
+    harmony.dimensions: 50
+    reduction.stdev: 1.5
+    reduction.group.by: "species"
+    # possible reduction.space
+    reduction.space: "pca"
+    ## k-nearest neighbors configuration
+    # possible neighbors.annoy.metric (https://satijalab.org/seurat/reference/findneighbors)
+    # "cosine", "euclidean", "manhattan", "hamming"
+    neighbors.annoy.metric: "euclidean"
+    neighbors.k: 20  
+    ## clustering configuration
+    # possible cluster.metadata (use "IDs" is highly recommended)
+    # "IDs", "species", "orig.ident", "ID.separate"
+    cluster.resolution: 0.1
+    cluster.seed: 42
+    # possible cluster.algorithm (https://satijalab.org/seurat/reference/findclusters)
+    # 1: original Louvain algorithm
+    # 2: Louvain algorithm with multilevel refinement
+    # 3: SLM algorithm
+    # 4: Leiden algorithm
+    cluster.algorithm: 4
+
+# ------------------------------------------------------------------------------
+# Configuration for empirical results
+# ------------------------------------------------------------------------------
+statistic:
+  coverage: 0.8
+
+# ------------------------------------------------------------------------------
+# Configuration for Visualization (colors must be valid in ggplot2)
+# ------------------------------------------------------------------------------
+visualization:
+  result_format: ".png"
+  histogram_color: "skyblue"
+  scatterplot_color: "firebrick"
+  vline_color: "firebrick"
+  hline_color: "black"
