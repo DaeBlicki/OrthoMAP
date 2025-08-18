@@ -67,7 +67,9 @@ Thumbs.db
 ############################
 results/
 download/
-SAMap/
+SAMap/samap_directory/
+SAMap/data/
+SAMap/results/
 
 # Logs #
 ########
