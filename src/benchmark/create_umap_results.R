@@ -147,5 +147,5 @@ umap_result <- patchwork::wrap_elements(species_umap) /
   ggplot2::theme(plot.tag = element_text(size = 20, face = "bold"))
 
 # Save
-filename <- file.path("results", "benchmark", "UMAP.pdf")
+filename <- file.path("results", "benchmark", "UMAP.png")
 ggplot2::ggsave(filename, umap_result, width = 12, height = 14)

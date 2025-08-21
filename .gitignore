@@ -82,3 +82,6 @@ SAMap/results/
 *.err
 *.synctex*
 
+# Except UMAP results      #
+############################
+!results.pdf
