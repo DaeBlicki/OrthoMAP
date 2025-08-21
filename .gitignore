@@ -65,6 +65,7 @@ Thumbs.db
 
 # results as .pdf and .csv #
 ############################
+*.png
 *.pdf
 *.csv
 
@@ -84,4 +85,4 @@ SAMap/results/
 
 # Except UMAP results      #
 ############################
-!results.pdf
+!results.png
