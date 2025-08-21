@@ -5,7 +5,7 @@ This project aims to implement a pipeline for create an embedding for cross-spec
 ## Abstract
 
 ## Experimental Results
-![alt text](https://github.com/DaeBlicki/OrthoMAP.git/results.pdf)
+![alt text](https://github.com/DaeBlicki/OrthoMAP/blob/main/results.pdf)
 
 ## 1 Guideline
 
