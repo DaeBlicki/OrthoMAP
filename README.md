@@ -33,9 +33,13 @@ OrthoMAP
 │    ├── sc_objects/          * store Seurat Objects
 │    ├── config.yaml          * User configuration file
 │    ├── parameter.drw        * OMA parameter file
-│    ├── README.md            * Guideline for dataset
-│    └── scsRNA_metadata.csv  * User dataset file
-│    
+│    ├── scsRNA_metadata.csv  * User dataset file
+│    └── tissue_palette.csv   * (optional) color palette
+│ 
+├── doc
+│    ├── Guideline.md         * Tutorial for OrthoMAP
+│    └── Project_Journal.md   * Description for reproducibility 
+│
 ├── results
 │    ├── OMA/                           * results for OMA
 │    ├── OrthoFinder/diamond            * results for Diamond
@@ -44,15 +48,16 @@ OrthoMAP
 │    ├── OrthoMAP_Seurat_Objects/       * seurat results
 │    └── OrthoMAP_Statistical_Results/  * empirical results
 │ 
-└── scripts
-     ├── oma_part1.sh              * Part 1 of OMA
-     ├── oma_part2.sh              * Part 2 of OMA
-     ├── oma_part3.sh              * Part 3 of OMA
-     ├── orthofinder_diamond.sh    * run OrthoFinder using Diamond
-     ├── orthofinder_mmseqs2.sh    * run OrthoFinder using MMseqs2
-     └── run_orthomap.sh           * run OrthoMAP
+├─── scripts
+│    ├── oma_part1.sh              * Part 1 of OMA
+│    ├── oma_part2.sh              * Part 2 of OMA
+│    ├── oma_part3.sh              * Part 3 of OMA
+│    ├── orthofinder_diamond.sh    * run OrthoFinder using Diamond
+│    ├── orthofinder_mmseqs2.sh    * run OrthoFinder using MMseqs2
+│    └── run_orthomap.sh           * run OrthoMAP
+│
+└── logs.tar.gz     * Project output and error files
 ```
-
 
 ### 1.2. Requirement
 
