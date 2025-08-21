@@ -59,9 +59,9 @@ md_colnames <- c("Cell_ID", "IDs", "ID.separate", "species", "orig.ident")
 # calculate the table
 metrics <- apply(data[!names(data) %in% md_colnames], 2, function(x) {
   ari_bio <- aricode::ARI(x, data[, "IDs"])
-  ari_batch <- aricode::ARI(x, data[, "orig.ident"])
+  ari_batch <- 1 - aricode::ARI(x, data[, "orig.ident"])
   nmi_bio <- aricode::NMI(x, data[, "IDs"])
-  nmi_batch <- aricode::NMI(x, data[, "orig.ident"])
+  nmi_batch <- 1 - aricode::NMI(x, data[, "orig.ident"])
   names <- c("cARI", "iARI", "cNMI", "iNMI")
   metrics <- c(ari_bio, ari_batch, nmi_bio, nmi_batch)
   names(metrics) <- names

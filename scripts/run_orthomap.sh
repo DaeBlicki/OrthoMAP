@@ -35,4 +35,4 @@ lscpu | grep "Model name"       # CPU Architecture
 date                            # Time of submitted job
 
 # Run the pipeline
-Rscript src/OrthoMAP_main.R c
+Rscript src/OrthoMAP_main.R x

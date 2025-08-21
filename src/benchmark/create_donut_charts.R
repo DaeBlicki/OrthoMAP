@@ -32,7 +32,7 @@ filenames <- c(
   file.path("results", "SAMap", "samap.Robj")
 )
 plotnames <- c("OMA", "MMseqs2 [HOG]", "Diamond [HOG]",
-               "MMseqs2 [OOG]", "Diamond [HOG]", "SAMap")
+               "MMseqs2 [OOG]", "Diamond [OOG]", "SAMap")
 tissue_config_path <- file.path("data", "tissue_palette.csv")
 palette <- read.csv(tissue_config_path, stringsAsFactors = TRUE)
 samap_clusters_path <- file.path("results", "benchmark",
@@ -126,8 +126,6 @@ create_shannon_plot <- function(file, plotname) {
       ggplot2::coord_polar(theta="y", start = 0) +
       ggplot2::xlim(c(-1, 4))
     # return pie_plot
-    ggplot2::ggsave("test/donut/single.png", pie_plot,
-                  width = 12, height = 14)
     pie_plot
   }
   pie_plots <- apply(ct_raw_table, 1, estimate_cluster_plots)
@@ -143,12 +141,12 @@ dir.create(output_directory,
 ggplot2::ggsave(file.path(output_directory, "oma.pdf"), result_plots[[1]],
                 width = 12, height = 14)
 ggplot2::ggsave(file.path(output_directory, "mmseqs2_hog.pdf"),
-                result_plots[[2]], width = 12, height = 14)
+                result_plots[[2]], width = 12, height = 16)
 ggplot2::ggsave(file.path(output_directory, "diamond_hog.pdf"),
-                result_plots[[3]], width = 12, height = 14)
+                result_plots[[3]], width = 12, height = 16)
 ggplot2::ggsave(file.path(output_directory, "mmseqs2_oog.pdf"),
-                result_plots[[4]], width = 12, height = 14)
+                result_plots[[4]], width = 12, height = 16)
 ggplot2::ggsave(file.path(output_directory, "diamond_oog.pdf"),
-                result_plots[[5]], width = 12, height = 14)
+                result_plots[[5]], width = 12, height = 16)
 ggplot2::ggsave(file.path(output_directory, "samap.pdf"),
-                result_plots[[6]], width = 12, height = 14)
+                result_plots[[6]], width = 12, height = 16)

@@ -13,7 +13,7 @@
 #' 2.4 : Perform linear dimensional reduction
 #' 2.5 : Find k-nearest neighbors
 #' 2.6 : Find cluster
-#' 2.7 : Run UMAP and TSNE
+#' 2.7 : Run UMAP
 #'
 #' @param orthomap_obj OrthoMAP Seurat Object
 #' @param config yaml configuration file
@@ -38,6 +38,10 @@
 #'
 #' @author  David Blickenstorfer, Technau Group (2025)
 #' @created 31/07/2025
+#'
+#' Version: v1.0.0
+#' Changelog:
+#'  - v1.0.0: Initial release
 #'
 #' @copyright Technau Group, University of Vienna, 2025
 #' @copyright Boeva Lab, ETH Zurich, 2025

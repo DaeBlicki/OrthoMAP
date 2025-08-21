@@ -22,8 +22,6 @@
 #' ----------------------------------------------------------------------------
 # Load library
 library(tidyverse)
-sessionInfo()
-
 color_vector <- c(
   "OMA" = "#f06180",
   "HOG [mmseqs2]" = "#54bae9",
@@ -133,5 +131,5 @@ plot <- ggplot2::ggplot(df_long, aes(x=condition, y=entropy,
   ggplot2::geom_jitter(shape=16, position=position_jitter(0.2)) +
   ggplot2::theme_bw() + ggplot2::theme(axis.title.x = ggplot2::element_blank())
 
-plotname <- file.path("results", "benchmark", "resolution_entropy.png")
+plotname <- file.path("results", "benchmark", "resolution_entropy.pdf")
 ggplot2::ggsave(plotname, plot, width = 12, height = 8)

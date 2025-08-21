@@ -29,40 +29,17 @@
 # -----------------------------------------------------------------------------
 # Step 0: Preprocessing and Load Parameters
 # -----------------------------------------------------------------------------
-# Check argument list of program
-source("src/OrthoMAP_validator.R")  # OrthoMAP 'user' protection
+# Load OrthoMAP "package"
+source("src/OrthoMAP_toolbox.R")    # OrthoMAP utility library
 args <- commandArgs(trailingOnly = TRUE)
 f <- validate_argument_list(args)
 
 # load input variables and check validation file
-library(yaml)         # yaml (v.2.3.10)
-library(Rcpp)         # Rcpp (v.1.0.14)
-library(RcppProgress) # Progress bar
 config <- yaml::read_yaml(file.path("data", "config.yaml"))
 sc_objects_path <- file.path("data", "single_cell_atlas")
 datatable <- readr::read_csv(file.path("data", "scsRNA_metadata.csv"))
 annotation_table_path <- file.path("data", "annotation_table")
 validate_configuration(config)
-
-# R function in this project
-source("src/OrthoMAP_print.R")      # OrthoMAP print library
-source("src/OrthoMAP_toolbox.R")    # OrthoMAP utility library
-source("src/create_orthomap_object.R")
-source("src/visualize_orthomap_object.R")
-source("src/visualize_orthomap_result.R")
-source("src/analyze_orthomap_result.R")
-source("src/run_standard_routine.R")
-source("src/run_topdown_routine.R")
-Rcpp::sourceCpp("src/OrthoMAP_toolbox.cpp")
-
-# Import library in R (v.4.5.0)
-library(Seurat)     # seurat5 (v.5.2.1), SeuratObject (5.1.0)
-library(tidyverse)  # tidyverse (v.2.0.0), use dplyr, purrr
-library(Matrix)     # Matrix (v.1.7-1)
-library(patchwork)  # patchwork (v.1.3.0)
-library(scales)     # log-log scale
-library(harmony)    # data integration
-library(entropy)    # entropy statistics
 
 # User development information
 verbose <- as.logical(config$general$verbose)

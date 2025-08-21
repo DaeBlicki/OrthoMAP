@@ -22,7 +22,28 @@
 #' @copyright Technau Group, University of Vienna, 2025
 #' @copyright Boeva Lab, ETH Zurich, 2025
 #' ----------------------------------------------------------------------------
+source("src/OrthoMAP_print.R")
+source("src/create_orthomap_object.R")
+source("src/visualize_orthomap_object.R")
+source("src/visualize_orthomap_result.R")
+source("src/analyze_orthomap_result.R")
+source("src/run_standard_routine.R")
+source("src/run_topdown_routine.R")
+source("src/OrthoMAP_validator.R")
+source("src/OrthoMAP_print.R")
+Rcpp::sourceCpp("src/OrthoMAP_toolbox.cpp")
 
+# Load dependency libraries
+library(yaml)         # yaml (v.2.3.10)
+library(Rcpp)         # Rcpp (v.1.0.14)
+library(RcppProgress) # Progress bar
+library(Seurat)     # seurat5 (v.5.2.1), SeuratObject (5.1.0)
+library(tidyverse)  # tidyverse (v.2.0.0), use dplyr, purrr
+library(Matrix)     # Matrix (v.1.7-1)
+library(patchwork)  # patchwork (v.1.3.0)
+library(scales)     # log-log scale
+library(harmony)    # data integration
+library(entropy)    # entropy statistics
 # =============================================================================
 # STEP 1: Create OrthoGroup against Celltype matrix
 #     - get_single_cell_data

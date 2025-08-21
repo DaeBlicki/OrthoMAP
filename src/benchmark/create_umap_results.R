@@ -31,7 +31,7 @@ filenames <- c(
   file.path("results", "SAMap", "samap.Robj")
 )
 plotnames <- c("OMA", "MMseqs2 [HOG]", "Diamond [HOG]",
-               "MMseqs2 [OOG]", "Diamond [HOG]", "SAMap")
+               "MMseqs2 [OOG]", "Diamond [OOG]", "SAMap")
 tissue_config_path <- file.path("data", "tissue_palette.csv")
 palette <- read.csv(tissue_config_path, stringsAsFactors = TRUE)
 tissue_colors <- setNames(as.character(palette$Color), palette$Tissue)

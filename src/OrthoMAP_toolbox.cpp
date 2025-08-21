@@ -16,6 +16,10 @@
  * @author David Blickenstorfer, Technau Group (2025)
  * @date   25/06/2025
  * 
+ * Version: v1.0.0
+ * Changelog:
+ *  - v1.0.0: Initial release
+ * 
  * (c) Technau Group, University of Vienna, 2025
  * (c) Boeva Lab, ETH Zurich, 2025
  */

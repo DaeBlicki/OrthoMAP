@@ -63,6 +63,11 @@ Thumbs.db
 ####################################
 *.fa
 
+# results as .pdf and .csv #
+############################
+*.pdf
+*.csv
+
 # Custom results directory #
 ############################
 results/
@@ -76,3 +81,4 @@ SAMap/results/
 *.log
 *.err
 *.synctex*
+

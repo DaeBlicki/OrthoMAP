@@ -5,7 +5,7 @@
 #' Analyze the generated clusters in the OrthoMAP result object. It calculates
 #' The distribution of species and celltype for each clusters. Furthermore, the
 #' clusters are investigated using local Shannon Entropy, Adjusted Rand Index,
-#' Normalized Mutual Information (NMI) and Homogeneity Score. The cluster purity
+#' Normalized Mutual Information and Homogeneity Score. The cluster purity
 #' are visualized using donut charts and pheatmap
 #'
 #' @details
@@ -36,6 +36,10 @@
 #'
 #' @author  David Blickenstorfer, Technau Group (2025)
 #' @created 25/07/2025
+#'
+#' Version: v1.0.0
+#' Changelog:
+#'  - v1.0.0: Initial release
 #'
 #' @copyright Technau Group, University of Vienna, 2025
 #' @copyright Boeva Lab, ETH Zurich, 2025

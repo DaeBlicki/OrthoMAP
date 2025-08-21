@@ -35,7 +35,6 @@ methodnames_no_samap <- c("OMA", "HOG [mmseqs2]", "HOG [diamond]",
 # -----------------------------------------------------------------------------
 # Step 1: Load Data and Preparation
 # -----------------------------------------------------------------------------
-cat("[Step 1] Load and merge data, started at ", date(), "\n")
 metric_path <- file.path("results", "benchmark", "metrics")
 ari_nmi_files <- c(
   file.path(metric_path, "oma_ari_nmi.csv"),
@@ -231,7 +230,7 @@ ari_nmi_plot <- create_batch_plot("iNMI_mean", point_color = "#00c510") +
   patchwork::plot_layout(ncol = 5, width = c(2, 2, 1, 2, 2)) +
   ggplot2::theme(plot.margin = margin(0, 0, 0, 0))
 
-plotname <- file.path("results", "benchmark", "ari_nmi.png")
+plotname <- file.path("results", "benchmark", "ari_nmi.pdf")
 ggplot2::ggsave(plotname, ari_nmi_plot, width = 15, height = 4)
 
 # Create plots for ASW and LISI
@@ -243,13 +242,12 @@ asw_lisi_plot <- create_batch_plot("iLISI_mean", point_color = "#ecb500") +
   patchwork::plot_layout(ncol = 5, width = c(2, 2, 1, 2, 2)) +
   ggplot2::theme(plot.margin = margin(0, 0, 0, 0))
 
-plotname <- file.path("results", "benchmark", "asw_lisi.png")
+plotname <- file.path("results", "benchmark", "asw_lisi.pdf")
 ggplot2::ggsave(plotname, asw_lisi_plot, width = 15, height = 4)
 
 # -----------------------------------------------------------------------------
 # Step 5: Estimation of normalized Shannon Entropy
 # -----------------------------------------------------------------------------
-cat("[Step 5] Estimation of harmonized Shannon Entropy")
 input_col <- c(rep("OMA", length(unlist(entropy_list[[1]]))),
                rep("HOG [mmseqs2]", length(unlist(entropy_list[[2]]))),
                rep("HOG [diamond]", length(unlist(entropy_list[[3]]))),
@@ -269,10 +267,9 @@ plot <- ggplot2::ggplot(df, aes(x=input, y=entropy, color=input, fill=input)) +
                         outlier.shape = 21, outlier.size = 2) +
   ggplot2::scale_color_manual(values = color_vector) +
   ggplot2::scale_fill_manual(values = color_vector) +
-  ggplot2::labs(title = "Shannon Entropy by Clustering Method",
-                x = "Clustering Method", y = "Shannon Entropy") +
+  ggplot2::labs(y = "Shannon Entropy") +
   ggplot2::geom_jitter(shape=16, position=position_jitter(0.2)) +
   ggplot2::theme_bw()
 
-plotname <- file.path("results", "benchmark", "entropy.png")
-ggplot2::ggsave(plotname, plot, width = 12, height = 8)
+plotname <- file.path("results", "benchmark", "entropy.pdf")
+ggplot2::ggsave(plotname, plot, width = 12, height = 6)
