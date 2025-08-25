@@ -267,9 +267,10 @@ plot <- ggplot2::ggplot(df, aes(x=input, y=entropy, color=input, fill=input)) +
                         outlier.shape = 21, outlier.size = 2) +
   ggplot2::scale_color_manual(values = color_vector) +
   ggplot2::scale_fill_manual(values = color_vector) +
-  ggplot2::labs(y = "Shannon Entropy") +
+  ggplot2::labs(y = "Harmonized Shannon Entropy") +
   ggplot2::geom_jitter(shape=16, position=position_jitter(0.2)) +
-  ggplot2::theme_bw()
+  ggplot2::theme_bw() + ggplot2::theme(axis.title.x = ggplot2::element_blank())
+
 
 plotname <- file.path("results", "benchmark", "entropy.pdf")
 ggplot2::ggsave(plotname, plot, width = 12, height = 6)

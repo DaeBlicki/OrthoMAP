@@ -199,6 +199,7 @@ plot_final <- plot_con / plot_res +
   patchwork::plot_layout(guides = "collect") +
   patchwork::plot_annotation(tag_levels = "A") &
   theme(
+    axis.title.y = element_text(),
     legend.position = "right",
     title = element_blank(),
     plot.tag = element_text(size = 20, face = "bold")
