@@ -86,4 +86,5 @@ SAMap/results/
 # Except UMAP results      #
 ############################
 !results.png
-!additional_results/*
+!additional_results/heatmaps/*
+!additional_results/homogeneity_charts/*
