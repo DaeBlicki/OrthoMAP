@@ -75,8 +75,9 @@ create_pheatmap <- function(file, plotname, coarsename) {
                                      treeheight_col = 0,
                                      scale = "column",
                                      display_numbers = TRUE,
-                                     fontsize_number = 4,
-                                     fontsize_row = 4,
+                                     fontsize_number = 6,
+                                     fontsize_row = 8,
+                                     fontsize_col = 12,
                                      main = "column-scaled")$gtable
 
   gt_row_scale <- pheatmap::pheatmap(ct_raw_table,
@@ -85,8 +86,9 @@ create_pheatmap <- function(file, plotname, coarsename) {
                                      treeheight_col = 0,
                                      display_numbers = TRUE,
                                      scale = "row",
-                                     fontsize_number = 4,
-                                     fontsize_row = 4,
+                                     fontsize_number = 6,
+                                     fontsize_row = 8,
+                                     fontsize_col = 12,
                                      main = "row-scaled")$gtable
   gt <- gridExtra::grid.arrange(gt_row_scale, gt_col_scale, nrow = 2)
   ggplot2::ggsave(plotname, plot = gt, width = 12, height = 14)
@@ -101,8 +103,9 @@ create_pheatmap <- function(file, plotname, coarsename) {
                                        treeheight_col = 0,
                                        scale = "column",
                                        display_numbers = TRUE,
-                                       fontsize_number = 4,
-                                       fontsize_row = 4,
+                                       fontsize_number = 6,
+                                       fontsize_row = 8,
+                                       fontsize_col = 12,
                                        main = "column-scaled")$gtable
 
     gt_row_scale <- pheatmap::pheatmap(coarse_raw_table,
@@ -111,8 +114,9 @@ create_pheatmap <- function(file, plotname, coarsename) {
                                        treeheight_col = 0,
                                        display_numbers = TRUE,
                                        scale = "row",
-                                       fontsize_number = 4,
-                                       fontsize_row = 4,
+                                       fontsize_number = 6,
+                                       fontsize_row = 8,
+                                       fontsize_col = 12,
                                        main = "row-scaled")$gtable
     gt <- gridExtra::grid.arrange(gt_row_scale, gt_col_scale, nrow = 2)
     ggplot2::ggsave(coarsename, plot = gt, width = 12, height = 14)
