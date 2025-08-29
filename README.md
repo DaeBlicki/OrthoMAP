@@ -3,6 +3,7 @@
 This project aims to implement a pipeline for create an embedding for cross-species comparisons. It depends on orthologous genes identified by any orthology interference software and data from scRNA-seq.
 
 ## Abstract
+Computational analysis of scRNA-Seq has already revealed many insights in the field of evolutionary and cellular biology. Currently, most studies are still limited to data from a single species. Hence, this thesis presents **OrthoMAP**, a fully automatized and modular pipeline for cross-species comparisons. The approach was to build a shared feature space based on orthologous genes between species and then apply computational scRNA-Seq analysis using two-step clustering. The current version integrated 1:1 orthologs and hierarchical orthologous groups from **OrthoFinder** (v.3.0.1b1) as well as OMA groups identified by **OMA standalone** (v.2.6.0). The workflow was applied to data from three different species of the phylum **cnidaria** including **Nematostella vectensis**, **Hydra vulgaris**, and **Aurelia coerulea** and then compared to SAMap, the current state-of-the-art for comparisons of remote species. The benchmark were based on dimensional reduction cell map and established metrics for batch integration and recovery of cell types in the generated clusters. OrthoMAP has been shown to successfully recover clusters with more than 80% species-specific tissue types with some degree of batch integration and offers similar results to SAMap when it comes to empirical metrics.
 
 ## Experimental Results
 ![alt text](https://github.com/DaeBlicki/OrthoMAP/blob/main/results.png)
@@ -30,7 +31,7 @@ OrthoMAP
 ├── data
 │    ├── annotation_table/    * store annotation table
 │    ├── DB/                  * store FASTA files
-│    ├── sc_objects/          * store Seurat Objects
+│    ├── single_cell_atlas/   * store Seurat Objects
 │    ├── config.yaml          * User configuration file
 │    ├── parameter.drw        * OMA parameter file
 │    ├── scsRNA_metadata.csv  * User dataset file
